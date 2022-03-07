@@ -1,5 +1,5 @@
 /* 
- * <Please put your name and userid here>
+ * <Riley Brady rpb4838 N13725426>
  * 
  * bits.c - Source file with your solutions to the Lab.
  *          This is the file you will hand in to your instructor.
@@ -139,8 +139,11 @@ NOTES:
  */
 int bitXor(int x, int y) {
   int a = (x & y);
+  printf(a);
   int b = (~x & ~y);
-  int z = (~b & ~a);
+  printf(b);
+  int z = (~a & ~b);
+  printf(z);
   return z;
 }
 /* 
