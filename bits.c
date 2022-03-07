@@ -139,11 +139,8 @@ NOTES:
  */
 int bitXor(int x, int y) {
   int a = (x & y);
-  printf(a);
   int b = (~x & ~y);
-  printf(b);
   int z = (~a & ~b);
-  printf(z);
   return z;
 }
 /* 
@@ -153,7 +150,7 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-  return 2;
+  return 0x80000000;
 }
 //2
 /*
