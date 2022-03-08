@@ -171,7 +171,7 @@ int tmin(void) {
 int isTmax(int x) {
   int a = ~(0u); 
 
-  return a;
+  return 1;
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
