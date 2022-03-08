@@ -169,9 +169,7 @@ int tmin(void) {
  *   Rating: 2
  */
 int isTmax(int x) {
-  int y = 0x7FFFFFFF; //set y to 01111...
-  int a = !(x^y); //XNOR is exactly the same as =
-  return a;
+  return !(x ^ 0x7FFFFFFF);
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
