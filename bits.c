@@ -181,9 +181,20 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  int y = 0xAAAAAAAA;
-  int z = !(x^y);
-  return z;
+  int A = 0xAA + (0xAA<<8) + (0xAA<<16) + (0xAA<<24);
+  return !((x&A) ^ A);
+  /* all odd-numbered bits are set to 1 only in 0xAAAAAAAA, which
+     corresponds to 10101010101010101010101010101010 in binary.
+     we check this by constructing this number by left shifting
+     and adding with 8 bits at a time (max number restriction
+     was 55)
+     Then we do x&A, which checks if x and A have the same bits.
+     if they have the same bits, it results in A. then we do
+     result ^ A, which returns 0 if all the bits are equal
+     and 1 otherwise. then we do !(result) so that it returns
+     1 if the bits are equal (if the result is 0) and 0 otherwise
+     (bits are not equal)
+   */
 }
 /* 
  * negate - return -x 
