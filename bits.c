@@ -182,7 +182,10 @@ int isTmax(int x) {
  */
 int allOddBits(int x) {
   int y = 0xAAAAAAAA;
-  int z = bitXor(x, y);
+  int a = (x & y); //x&y gives high only when inputs are both positive
+  int b = (~x & ~y); //~x&~y gives high only when the inputs are both negative
+  int z = (~a & ~b); //the cross product of the inverse of these operations 
+  //provides a positive output if and only if the inputs are different
   z = ~z;
   return z;
 }
