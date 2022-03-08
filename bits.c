@@ -186,7 +186,7 @@ int allOddBits(int x) {
   int b = (~x & ~y); //~x&~y gives high only when the inputs are both negative
   int z = (~a & ~b); //the cross product of the inverse of these operations 
   //provides a positive output if and only if the inputs are different
-  z = ~z;
+  //z = ~z;
   return z;
 }
 /* 
@@ -303,7 +303,7 @@ int howManyBits(int value) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  return 3;
+  return 2;
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
