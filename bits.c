@@ -169,7 +169,9 @@ int tmin(void) {
  *   Rating: 2
  */
 int isTmax(int x) {
-  return !(x ^ 0x7FFFFFFF);
+  int neg1;
+  neg1 = !(~x); // if x == -1, neg1 == 1, else, neg1 == 0
+  return !((~(x+1)^x)|neg1); // add 1, flip, xor, becomes 0 if Tmax (or if -1)
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
