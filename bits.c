@@ -292,34 +292,35 @@ int howManyBits(int x) {
   * 1. find the most significant bit of 1 for positive numbers
   * 2. find the most significant bit of 0 for negative numbers
   */
- 
-    int sign, bit0, bit1, bit2, bit4, bit8, bit16;
 
-    sign = x >> 31;
-    
-    /* Bit invert x as needed */
-    x = (sign & ~x) | (~sign & x);
-    
-    /* Binary Search on bit level */
-    bit16 = !!(x >> 16) << 4;
-    x = x >> bit16;
-    
-    bit8 = !!(x >> 8) << 3;
-    x = x >> bit8;
-    
-    bit4 = !!(x >> 4) << 2;
-    x = x >> bit4;
-    
-    bit2 = !!(x >> 2) << 1;
-    x = x >> bit2;
-    
-    bit1 = !!(x >> 1);
-    x = x >> bit1;
-    
-    bit0 = x;
+  int sign, bit0, bit1, bit2, bit4, bit8, bit16;
 
-    return bit16 + bit8 + bit4 + bit2 + bit1 + bit0 + 1;
+  sign = x >> 31;
+    
+  /* Bit invert x as needed */
+  x = (sign & ~x) | (~sign & x);
+    
+  /* Binary Search on bit level */
+  bit16 = !!(x >> 16) << 4;
+  x = x >> bit16;
+    
+  bit8 = !!(x >> 8) << 3;
+  x = x >> bit8;
+    
+  bit4 = !!(x >> 4) << 2;
+  x = x >> bit4;
+    
+  bit2 = !!(x >> 2) << 1;
+  x = x >> bit2;
+    
+  bit1 = !!(x >> 1);
+  x = x >> bit1;
+    
+  bit0 = x;
+
+  return bit16 + bit8 + bit4 + bit2 + bit1 + bit0 + 1;
 }
+
 //float
 /* 
  * float_twice - Return bit-level equivalent of expression 2*f for
@@ -356,6 +357,8 @@ unsigned float_twice(unsigned uf) {
   }
   return uf;
 }
+
+
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
  *   Result is returned as unsigned int, but
@@ -366,7 +369,49 @@ unsigned float_twice(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
-  return 2;
+  //
+  // Just as int-to-float instructions.
+  // Used unsigned int variable t, f to avoid Arithmetic Shift problems.
+  //
+  int b = 0, s = 0, c = 0;
+  unsigned int r = 0x00000000;
+  unsigned int t = x, f = x;
+  // Use absolute value if negative.
+  if(x >> 31)
+  {
+    r = 0x80000000;
+    t = f = (~x) + 1;
+  }
+  // Count digits.
+  while(t)
+  {
+    b = b + 1;
+    t = t >> 1;
+  }
+  s = 24 - b;
+  // Check digit loss (in terms of precision).
+  if(s < 0)
+  {
+    s = 0;
+    while(f >> 25)
+    {
+      c = c | (f & 1);
+      f = f >> 1;
+    }
+    f = (f >> 1) + (f & (c | (f >> 1)) & 1);
+    if(f >> 24)
+    {
+      b = b + 1;
+    }
+  }
+  // Make Exp 0 if x is 0.
+  if(!b)
+  {
+    b = -126;
+  }
+  r = r | ((f << s) & 0x007FFFFF);
+  r = r | ((b + 126) << 23);
+  return r;
 }
 /* 
  * float_f2i - Return bit-level equivalent of expression (int) f
@@ -381,5 +426,26 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 int float_f2i(unsigned uf) {
-  return 2;
+  int exponent = (uf >> 23) & 0xFF;
+  int fraction = uf & 0x7FFFFF;
+  int e = exponent - 127;
+  if(exponent == 0x7F800000)
+  return 0x80000000u;
+
+  if(!exponent)
+  return 0;
+
+  if(e<0)
+  return 0;
+
+  if(e>30)
+  return 0x80000000u;
+    fraction = fraction | 0x80000000;
+  if (e>=23)
+    fraction = fraction << (e-23);
+  else
+    fraction = fraction >> (23 -e);
+  if ((uf>>31) & 1)
+  return ~fraction + 1;
+  return fraction;
 }
