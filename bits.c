@@ -262,14 +262,33 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  int count=0,i;
-	if(x==0) return 0;
-	for(i=0; i< 32; i++)
-	{	
-		if( (1 << i) & x)
-			count=i;
-	}
-	return count+1;
+    int bits = 0;
+    if (x >= 0x10000)
+    {
+        bits += 16;
+        x >>= 16;
+    }
+    if (x >= 0x100)
+    {
+        bits += 8;
+        x >>= 8;
+    }
+    if (x >= 0x10)
+    {
+        bits += 4;
+        x >>= 4;
+    }
+    if (x >= 0x4)
+    {
+        bits += 2;
+        x >>= 2;
+    }
+    if (x >= 0x2)
+    {
+        bits += 1;
+        x >>= 1;
+    }
+    return bits + x;
 }
 //float
 /* 
