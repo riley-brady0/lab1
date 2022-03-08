@@ -426,26 +426,22 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 int float_f2i(unsigned uf) {
-  int exponent = (uf >> 23) & 0xFF;
-  int fraction = uf & 0x7FFFFF;
-  int e = exponent - 127;
-  if(exponent == 0x7F800000)
-  return 0x80000000u;
-
-  if(!exponent)
-  return 0;
-
-  if(e<0)
-  return 0;
-
-  if(e>30)
-  return 0x80000000u;
-    fraction = fraction | 0x80000000;
-  if (e>=23)
-    fraction = fraction << (e-23);
-  else
-    fraction = fraction >> (23 -e);
-  if ((uf>>31) & 1)
-  return ~fraction + 1;
-  return fraction;
+      int flag = uf & (1 << 31);
+      uf = uf & ~(1 << 31);
+      int exp = (uf >> 23);
+      int num = exp + ~126;
+      if( !exp || (num & (1 << 31)))
+        return 0;
+      else if(!(exp ^ 0xFF))
+      {
+        return (1 << 31);
+      }
+      else
+      {
+        num = 1 << num;
+      if(flag)
+        return ~num + 1;
+      else
+        return num;
+  }
 }
