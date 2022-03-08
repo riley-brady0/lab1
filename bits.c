@@ -303,11 +303,7 @@ int howManyBits(int value) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  if (uf = 0) 
-  {
-    return 0;
-  }
-
+  return 3;
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
