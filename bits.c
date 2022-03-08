@@ -426,22 +426,22 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 int float_f2i(unsigned uf) {
-      int flag = uf & (1 << 31);
-      uf = uf & ~(1 << 31);
-      int exp = (uf >> 23);
-      int num = exp + ~126;
-      if( !exp || (num & (1 << 31)))
-        return 0;
-      else if(!(exp ^ 0xFF))
-      {
-        return (1 << 31);
-      }
-      else
-      {
-        num = 1 << num;
-      if(flag)
-        return ~num + 1;
-      else
-        return num;
+  int flag = uf & (1 << 31);
+  uf = uf & ~(1 << 31);
+  int exp = (uf >> 23);
+  int num = exp + ~126;
+  if( !exp || (num & (1 << 31)))
+    return 0;
+  else if(!(exp ^ 0xFF))
+  {
+    return (1 << 31);
+  }
+  else
+  {
+    num = 1 << num;
+  if(flag)
+    return ~num + 1;
+  else
+    return num;
   }
 }
