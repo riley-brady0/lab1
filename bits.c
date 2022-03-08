@@ -169,7 +169,7 @@ int tmin(void) {
  *   Rating: 2
  */
 int isTmax(int x) {
-  int y = ~(0u); 
+  int y = ~(0u >> 1); 
   int a = !(x^y);
   return a;
 }
