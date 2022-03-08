@@ -138,11 +138,14 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  int a = (x & y);
-  int b = (~x & ~y);
-  int z = (~a & ~b);
+  //Xor returns high if and only if the inputs are different 
+  int a = (x & y); //x&y gives high only when inputs are both positive
+  int b = (~x & ~y); //~x&~y gives high only when the inputs are both negative
+  int z = (~a & ~b); //the cross product of the inverse of these operations 
+  //provides a positive output if and only if the inputs are different
   return z;
 }
+
 /* 
  * tmin - return minimum two's complement integer 
  *   Legal ops: ! ~ & ^ | + << >>
@@ -150,9 +153,13 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-  int a = ~ (~0u >> 1);
+  int a = ~ (~0u >> 1); 
+  //~turns on all bits in the unsigned zero
+  //>>1 shifts right making the highest bit a zero
+  //then ~ again turns the number into a 1 followed by all 0s 
   return a;
 }
+
 //2
 /*
  * isTmax - returns 1 if x is the maximum, two's complement number,
@@ -162,7 +169,9 @@ int tmin(void) {
  *   Rating: 2
  */
 int isTmax(int x) {
-  return 2;
+  int a = ~(0u); 
+
+  return a;
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -172,7 +181,10 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+  int y = 0xAAAAAAAA;
+  int z = bitXor(x, y);
+  z = ~z;
+  return z;
 }
 /* 
  * negate - return -x 
