@@ -230,11 +230,11 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-int diff_sgn = !(x>>31)^!(y>>31);      //is 1 when signs are different
-int a = diff_sgn & (x>>31);            //diff signs and x is neg, gives 1
-int b = !diff_sgn & !((y+(~x+1))>>31); //same signs and difference is pos or = 0, gives 1
-int f = a | b;
-return f;
+  int diff_sgn = !(x>>31)^!(y>>31);      //is 1 when signs are different
+  int a = diff_sgn & (x>>31);            //diff signs and x is neg, gives 1
+  int b = !diff_sgn & !((y+(~x+1))>>31); //same signs and difference is pos or = 0, gives 1
+  int f = a | b;
+  return f;
 }
 
 //4
@@ -303,7 +303,11 @@ int howManyBits(int value) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  return 2;
+  if (uf = 0) 
+  {
+    return 0;
+  }
+
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
