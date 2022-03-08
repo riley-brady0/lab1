@@ -230,8 +230,10 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int greater = (x + (~y + 1))>>31 & 1;
+  return !(greater)|(!(x^y));
 }
+
 //4
 /* 
  * logicalNeg - implement the ! operator, using all of 
