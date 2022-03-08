@@ -282,34 +282,43 @@ int logicalNeg(int x) {
  *  Max ops: 90
  *  Rating: 4
  */
-int howManyBits(int value) {
-    int bits = 0;
-    if (value >= 0x10000)
-    {
-        bits += 16;
-        value >>= 16;
-    }
-    if (value >= 0x100)
-    {
-        bits += 8;
-        value >>= 8;
-    }
-    if (value >= 0x10)
-    {
-        bits += 4;
-        value >>= 4;
-    }
-    if (value >= 0x4)
-    {
-        bits += 2;
-        value >>= 2;
-    }
-    if (value >= 0x2)
-    {
-        bits += 1;
-        value >>= 1;
-    }
-    return bits + value;
+int howManyBits(int x) {
+  /*
+  * We first bit invert all negative numbers and
+  * use binary search to find out the log2(n).
+  * Then we add 1 to the final result since we need
+  * the MSB to represent the sign.
+  * Note: finding the following things are equal:
+  * 1. find the most significant bit of 1 for positive numbers
+  * 2. find the most significant bit of 0 for negative numbers
+  */
+ 
+    int sign, bit0, bit1, bit2, bit4, bit8, bit16;
+
+    sign = x >> 31;
+    
+    /* Bit invert x as needed */
+    x = (sign & ~x) | (~sign & x);
+    
+    /* Binary Search on bit level */
+    bit16 = !!(x >> 16) << 4;
+    x = x >> bit16;
+    
+    bit8 = !!(x >> 8) << 3;
+    x = x >> bit8;
+    
+    bit4 = !!(x >> 4) << 2;
+    x = x >> bit4;
+    
+    bit2 = !!(x >> 2) << 1;
+    x = x >> bit2;
+    
+    bit1 = !!(x >> 1);
+    x = x >> bit1;
+    
+    bit0 = x;
+
+    return bit16 + bit8 + bit4 + bit2 + bit1 + bit0 + 1;
 }
 //float
 /* 
