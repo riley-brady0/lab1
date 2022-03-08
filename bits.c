@@ -150,7 +150,8 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-  return 0x80000000;
+  int a = ~ (~0u >> 1);
+  return a;
 }
 //2
 /*
