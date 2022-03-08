@@ -261,34 +261,34 @@ int logicalNeg(int x) {
  *  Max ops: 90
  *  Rating: 4
  */
-int howManyBits(int x) {
+int howManyBits(int value) {
     int bits = 0;
-    if (x >= 0x10000)
+    if (value >= 0x10000)
     {
         bits += 16;
-        x >>= 16;
+        value >>= 16;
     }
-    if (x >= 0x100)
+    if (value >= 0x100)
     {
         bits += 8;
-        x >>= 8;
+        value >>= 8;
     }
-    if (x >= 0x10)
+    if (value >= 0x10)
     {
         bits += 4;
-        x >>= 4;
+        value >>= 4;
     }
-    if (x >= 0x4)
+    if (value >= 0x4)
     {
         bits += 2;
-        x >>= 2;
+        value >>= 2;
     }
-    if (x >= 0x2)
+    if (value >= 0x2)
     {
         bits += 1;
-        x >>= 1;
+        value >>= 1;
     }
-    return bits + x;
+    return bits + value;
 }
 //float
 /* 
