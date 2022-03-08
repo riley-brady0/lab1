@@ -324,7 +324,28 @@ int howManyBits(int value) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  return 2;
+  // Case-by-case.
+  int e = (uf >> 23) & 0xFF;
+  // Denormalized Case
+  if(!e)
+  {
+    e = 0xFF;
+    // Significand overflow is okay; Automatically managed as Normalized Case.
+    uf = (uf & 0x80000000) | (uf << 1);
+  }
+  // Overflow Case
+  if(!(e ^ 0xFE))
+  {
+    e = 0xFF;
+    // Set Infinite, not NaN
+    uf = (uf & 0x80000000) | (e << 23);
+  }
+  // Nothing to process if Exp = 0xFF
+  if(e ^ 0xFF)
+  {
+    uf = uf + (1 << 23);
+  }
+  return uf;
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
