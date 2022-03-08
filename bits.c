@@ -269,7 +269,7 @@ int howManyBits(int x) {
 		if( (1 << i) & x)
 			count=i;
 	}
-	return ++count;
+	return count+1;
 }
 //float
 /* 
