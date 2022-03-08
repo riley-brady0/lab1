@@ -265,7 +265,10 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  // zero is the only number that complemented
+  // and inversed-and-complemented is the
+  // same: (-1) -- check for signbit sameness
+  return ( ( (~x) & (~(~x+1)) ) >> 31 ) & 1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
