@@ -171,7 +171,7 @@ int tmin(void) {
 int isTmax(int x) {
   int y = ~0u >> 1; //set y to 01111...
   int a = !(x^y); //XOR is exactly the same as != and XNOR is exactly the same as =
-  return ~a;
+  return a;
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -182,11 +182,7 @@ int isTmax(int x) {
  */
 int allOddBits(int x) {
   int y = 0xAAAAAAAA;
-  int a = (x & y); //x&y gives high only when inputs are both positive
-  int b = (~x & ~y); //~x&~y gives high only when the inputs are both negative
-  int z = (~a & ~b); //the cross product of the inverse of these operations 
-  //provides a positive output if and only if the inputs are different
-  //z = ~z;
+  int z = !(x^y);
   return z;
 }
 /* 
