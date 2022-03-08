@@ -169,8 +169,8 @@ int tmin(void) {
  *   Rating: 2
  */
 int isTmax(int x) {
-  int y = ~0u >> 1; //set y to 01111...
-  int a = !(x^y); //XOR is exactly the same as != and XNOR is exactly the same as =
+  int y = 0x7FFFFFFF; //set y to 01111...
+  int a = !(x^y); //XNOR is exactly the same as =
   return a;
 }
 /* 
