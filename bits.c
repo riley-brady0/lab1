@@ -186,14 +186,12 @@ int allOddBits(int x) {
   /* all odd-numbered bits are set to 1 only in 0xAAAAAAAA, which
      corresponds to 10101010101010101010101010101010 in binary.
      we check this by constructing this number by left shifting
-     and adding with 8 bits at a time (max number restriction
-     was 55)
+     and adding 8 bits at a time 
      Then we do x&A, which checks if x and A have the same bits.
      if they have the same bits, it results in A. then we do
      result ^ A, which returns 0 if all the bits are equal
      and 1 otherwise. then we do !(result) so that it returns
-     1 if the bits are equal (if the result is 0) and 0 otherwise
-     (bits are not equal)
+     1 if the bits are equal
    */
 }
 /* 
@@ -219,14 +217,14 @@ int negate(int x) {
  */
 int isAsciiDigit(int x) {
    int sign = 1 << 31;
-   int upperBound = ~(sign | 0x39); /*if > 0x39 is added, result goes negative*/
-   int lowerBound = ~0x30;/*when < 0x30 is added, result is negative*/
+   int upper = ~(sign | 0x39); /*if > 0x39 is added, result goes negative*/
+   int lower = ~0x30;/*when < 0x30 is added, result is negative*/
 
-   /*now add x and check the sign bit for each*/
-   upperBound = sign & (upperBound+x) >> 31;
-   lowerBound = sign & (lowerBound+1+x) >> 31; 
+   /*now add x and check sign bit*/
+   upper = sign & (upper+x) >> 31;
+   lower = sign & (lower+1+x) >> 31; 
    /*if either result is negative, it is not in desired range*/
-   return !(upperBound | lowerBound); 
+   return !(upper | lower); 
 }
 /* 
  * conditional - same as x ? y : z 
@@ -248,9 +246,9 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  int diff_sgn = !(x>>31)^!(y>>31);      //is 1 when signs are different
-  int a = diff_sgn & (x>>31);            //diff signs and x is neg, gives 1
-  int b = !diff_sgn & !((y+(~x+1))>>31); //same signs and difference is pos or = 0, gives 1
+  int diff_sign = !(x>>31)^!(y>>31);      //is 1 when signs are different
+  int a = diff_sign & (x>>31);            //diff signs and x is neg, gives 1
+  int b = !diff_sign & !((y+(~x+1))>>31); //same signs and difference is pos or = 0, gives 1
   int f = a | b;
   return f;
 }
@@ -369,10 +367,6 @@ unsigned float_twice(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
-  //
-  // Just as int-to-float instructions.
-  // Used unsigned int variable t, f to avoid Arithmetic Shift problems.
-  //
   int b = 0, s = 0, c = 0;
   unsigned int r = 0x00000000;
   unsigned int t = x, f = x;
