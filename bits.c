@@ -171,7 +171,7 @@ int tmin(void) {
 int isTmax(int x) {
   int neg1;
   neg1 = !(~x); // if x == -1, neg1 == 1, else, neg1 == 0
-  return !((~(x+1)^x)|neg1); // add 1, flip, xor, becomes 0 if Tmax (or if -1)
+  return !((~(x+1)^x)|neg1); // add 1, flip, and xor, becomes 0 if Tmax (or if -1)
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -265,8 +265,8 @@ int isLessOrEqual(int x, int y) {
 int logicalNeg(int x) {
   // zero is the only number that complemented
   // and inversed-and-complemented is the
-  // same: (-1) -- check for signbit sameness
-  return ( ( (~x) & (~(~x+1)) ) >> 31 ) & 1;
+  // same: (-1) ~ check for signbit sameness
+  return (((~x) & (~(~x+1))) >> 31) & 1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -281,15 +281,6 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  /*
-  * We first bit invert all negative numbers and
-  * use binary search to find out the log2(n).
-  * Then we add 1 to the final result since we need
-  * the MSB to represent the sign.
-  * Note: finding the following things are equal:
-  * 1. find the most significant bit of 1 for positive numbers
-  * 2. find the most significant bit of 0 for negative numbers
-  */
 
   int sign, bit0, bit1, bit2, bit4, bit8, bit16;
 
